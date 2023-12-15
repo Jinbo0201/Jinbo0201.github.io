@@ -1,5 +1,3 @@
-Take time, take direction.
-
 个人博客，记录简历相关内容！
 
 做大做强，再创辉煌！
