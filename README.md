@@ -1,5 +1,3 @@
 # HomePage
 
-Take time.
-
-Take direction.
+Welcome！
