@@ -1,688 +1,1148 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>BoJin's Home</title>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金波 · BoJin's Home</title>
     <style>
-        /* 论文自动编号 */
-        #publications-table {
-            counter-reset: pub-counter;
+        /* ========== Reset & Base ========== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            background: #f8fafc;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
         }
-        #publications-table tr td:first-child::before {
-            counter-increment: pub-counter;
-            content: "[" counter(pub-counter) "] ";
-            font-weight: bold;
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 28px 80px;
+        }
+
+        /* ========== Header / Profile ========== */
+        .profile {
+            margin-bottom: 44px;
+        }
+
+        .profile .name {
+            font-size: 30px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.3;
+        }
+        .profile .name .en {
+            font-weight: 400;
+            color: #64748b;
+            font-size: 22px;
+        }
+        .profile .name .degree-cn {
+            font-size: 20px;
+            font-weight: 500;
+            color: #475569;
+        }
+        .profile .name .degree-en {
+            font-size: 16px;
+            font-weight: 400;
+            color: #64748b;
+        }
+
+        .profile .affiliation {
+            margin-top: 12px;
+            font-size: 16px;
+            color: #334155;
+        }
+        .profile .affiliation .en {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .profile .interests {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 32px;
+        }
+        .profile .interests .tag {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 4px;
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+        }
+        .profile .interests .tag strong {
+            font-weight: 600;
+            color: #334155;
             white-space: nowrap;
         }
 
-        /* 专利自动编号 */
-        #patents-table {
-            counter-reset: patent-counter;
+        .profile .meta {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #475569;
         }
-        #patents-table tr td:first-child::before {
-            counter-increment: patent-counter;
-            content: "[" counter(patent-counter) "] ";
-            font-weight: bold;
-            white-space: nowrap;
+        .profile .meta .part-time {
+            display: block;
+            margin-bottom: 4px;
         }
-
-        /* 软著自动编号 */
-        #softness-table {
-            counter-reset: soft-counter;
-        }
-        #softness-table tr td:first-child::before {
-            counter-increment: soft-counter;
-            content: "[" counter(soft-counter) "] ";
-            font-weight: bold;
-            white-space: nowrap;
+        .profile .meta .part-time strong {
+            font-weight: 600;
         }
 
-        /* 标准自动编号 */
-        #standard-table {
-            counter-reset: standard-counter;
+        .profile .about {
+            margin-top: 14px;
+            padding: 16px 20px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: #334155;
         }
-        #standard-table tr td:first-child::before {
-            counter-increment: standard-counter;
-            content: "[" counter(standard-counter) "] ";
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        /* 课题自动编号 */
-        #research-table {
-            counter-reset: research-counter;
-        }
-        #research-table tr td:first-child::before {
-            counter-increment: research-counter;
-            content: "[" counter(research-counter) "] ";
-            font-weight: bold;
-            white-space: nowrap;
+        .profile .about strong {
+            font-weight: 600;
         }
 
-        /* 工程项目自动编号 */
-        #project-table {
-            counter-reset: project-counter;
+        /* ========== Section ========== */
+        .section {
+            margin-bottom: 40px;
         }
-        #project-table tr td:first-child::before {
-            counter-increment: project-counter;
-            content: "[" counter(project-counter) "] ";
-            font-weight: bold;
-            white-space: nowrap;
+        .section:last-child {
+            margin-bottom: 0;
         }
-        
-        /* 获奖自动编号 */
-        #awards-table {
-            counter-reset: award-counter;
+
+        .section-header {
+            font-size: 17px;
+            font-weight: 600;
+            color: #0f172a;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
         }
-        #awards-table tr td:first-child::before {
-            counter-increment: award-counter;
-            content: "[" counter(award-counter) "] ";
-            font-weight: bold;
-            white-space: nowrap;
+        .section-header .en {
+            font-weight: 400;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 0;
+        }
+
+        /* ========== Experience Timeline ========== */
+        .exp-item {
+            display: flex;
+            gap: 16px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .exp-item:last-child {
+            border-bottom: none;
+        }
+
+        .exp-date {
+            min-width: 140px;
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+
+        .exp-detail {
+            flex: 1;
+        }
+        .exp-detail .title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .exp-detail .en {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* ========== Numbered Entry List ========== */
+        .entry-list {
+            counter-reset: entry-counter;
+        }
+
+        .entry-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            align-items: flex-start;
+        }
+        .entry-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .entry-num {
+            counter-increment: entry-counter;
+            flex-shrink: 0;
+            min-width: 28px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+            padding-top: 2px;
+            text-align: left;
+        }
+        .entry-num::before {
+            content: "[" counter(entry-counter) "]";
+        }
+
+        .entry-content {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #334155;
+            min-width: 0;
+        }
+        .entry-content .en {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+        .entry-content i {
+            color: #64748b;
+        }
+
+        .entry-links {
+            display: inline-flex;
+            gap: 6px;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        .entry-links a {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 1px 8px;
+            border-radius: 4px;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #dbeafe;
+            transition: background 0.15s;
+        }
+        .entry-links a:hover {
+            background: #dbeafe;
+            text-decoration: none;
+        }
+
+        /* ========== Two-Column Entry (Projects, Awards) ========== */
+        .two-col-item {
+            display: flex;
+            gap: 16px;
+            padding: 9px 0;
+            border-bottom: 1px solid #f1f5f9;
+            align-items: flex-start;
+        }
+        .two-col-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .two-col-date {
+            min-width: 140px;
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+
+        .two-col-detail {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #334155;
+            min-width: 0;
+        }
+        .two-col-detail .en {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 640px) {
+            .container {
+                padding: 28px 16px 60px;
+            }
+
+            .profile .name {
+                font-size: 24px;
+            }
+            .profile .name .en {
+                font-size: 18px;
+            }
+            .profile .name .degree-cn {
+                font-size: 17px;
+            }
+            .profile .name .degree-en {
+                font-size: 14px;
+            }
+
+            .profile .about {
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+
+            .exp-item,
+            .two-col-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .exp-date,
+            .two-col-date {
+                min-width: unset;
+                font-size: 13px;
+            }
+
+            .entry-item {
+                flex-wrap: wrap;
+                gap: 4px 10px;
+            }
+            .entry-num {
+                min-width: 24px;
+            }
+
+            .profile .interests {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        /* ========== Print ========== */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+            .entry-links a {
+                background: none;
+                border: none;
+                padding: 0;
+                color: #2563eb;
+            }
+            .profile .about {
+                background: #f5f5f5;
+                border: 1px solid #ddd;
+            }
         }
     </style>
 </head>
 
 <body>
+    <div class="container">
 
-<h2 align="center">个人主页 PersonalWeb</h2>
+        <!-- ==================== Header ==================== -->
+        <header class="profile">
+            <div class="name">
+                金波 <span class="en">BoJin</span>
+                <span class="degree-cn"> 博士</span>
+                <span class="degree-en">, Ph.D.</span>
+            </div>
 
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" >
-    <tr>
-        <td width="100" align="left" style="border: none;">
-            <b>金波 博士</b>
-            <br/>BoJin Doctor
-        </td>
-    </tr>
-    <tr>
-        <td width="100" align="left" style="border: none;" >
-            <b>浙江省交通运输科学研究院</b>
-            <br/>Zhejiang Scientific Research Institute of Transport
-        </td>
-    </tr>
-    <tr>    
-        <td width="100" align="left" style="border: none;" >
-            <b>方法论: 数据驱动的控制方法，运筹学与优化算法，系统建模与仿真技术</b>
-            <br/><b>应用场景: 智能交通系统（铁路和公路）</b>
-            <br/>Methodology: Data-driven control methods, operations research and optimization algorithms, system modeling and simulation techniques
-            <br/>Application Scenario: Intelligent Transportation Systems (Rail & Highway)
-        </td>
-    </tr>
-    <tr>
-        <td width="100" align="left" style="border: none;" >
-            <b>兼职: </b>浙江省人工智能学会智能交通分会第一届委员会青年委员
-        </td>
-    </tr>
-    <tr>    
-        <td width="100" align="left" style="border: none;" ><b>Email: jinbo0201@outlook.com</b></td>
-    </tr>
+            <div class="affiliation">
+                浙江省交通运输科学研究院<br>
+                <span class="en">Zhejiang Scientific Research Institute of Transport</span>
+            </div>
 
-    <tr>
-        <td width="100" align="left" style="border: none;" >
-            <b>个人简介: </b> 高级工程师，浙江大学博士后，西南交通大学博士研究生毕业，主要从事智能交通系统建模、仿真、优化和控制等方面的研究工作。
-            担任浙江省人工智能学会智能交通分会第一届委员会青年委员。
-            先后主持或参与省部级、厅局级等科研项目10余项，其中国自然基金项目2项，完成技术服务项目20余项，发表学术论文20余篇，授权专利软著10余项，参与编制长三角地方标准1项。
-            获得四川省“互联网+”创新创业大赛二等奖1项，三等奖1项。
-        </td>
-    </tr>
+            <div class="interests">
+                <span class="tag"><strong>方法论:</strong> 数据驱动的控制方法，运筹学与优化算法，系统建模与仿真技术</span>
+                <span class="tag"><strong>应用场景:</strong> 智能交通系统（铁路和公路）</span>
+                <span class="tag"><strong>Methodology:</strong> Data-driven control, OR &amp; optimization, system modeling &amp; simulation</span>
+                <span class="tag"><strong>Application:</strong> Intelligent Transportation Systems (Rail &amp; Highway)</span>
+            </div>
 
-</table>
+            <div class="meta">
+                <span class="part-time"><strong>兼职:</strong> 浙江省人工智能学会智能交通分会第一届委员会青年委员</span>
+                <span><strong>Email:</strong> <a href="mailto:jinbo0201@outlook.com">jinbo0201@outlook.com</a></span>
+            </div>
 
-<p></p>
+            <div class="about">
+                <strong>个人简介:</strong> 高级工程师，浙江大学博士后，西南交通大学博士研究生毕业，主要从事智能交通系统建模、仿真、优化和控制等方面的研究工作。担任浙江省人工智能学会智能交通分会第一届委员会青年委员。先后主持或参与省部级、厅局级等科研项目10余项，其中国自然基金项目2项，完成技术服务项目20余项，发表学术论文20余篇，授权专利软著10余项，参与编制长三角地方标准1项。获得四川省"互联网+"创新创业大赛二等奖1项，三等奖1项。
+            </div>
+        </header>
 
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" >   
-    <tr align="left">
-        <th colspan="7" bgcolor="lightgray" style="border: none;">学习和工作经历 Education and Work experience</th>
-    </tr>
-    <tr>
-        <td width="150" colspan="1" align="left" style="border: none;">2025.10~</td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            <b>浙江省交通运输科学研究院</b>  高级工程师
-            <br/>Zhejiang Scientific Research Institute of Transport, Senior Engineer
-        </td>
-    </tr>
-    <tr>
-        <td width="150" colspan="1" align="left" style="border: none;">2022.09~2025.10</td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            <b>浙江省交通运输科学研究院</b>  工程师
-            <br/>Zhejiang Scientific Research Institute of Transport, Engineer
-        </td>
-    </tr>
-	<tr>
-        <td width="150" colspan="1" align="left" style="border: none;">2023.01~2025.03</td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            <b>浙江大学</b> 博士后 师从王亦兵教授
-            <br/>Zhejiang Univeristy, Postdoc, Supervised by Prof. Yibing Wang
-        </td>
-    </tr>
-    <tr>
-        <td width="150" colspan="1" align="left" style="border: none;">2017.09~2022.09</td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            <b>西南交通大学</b>  电气工程专业 博士 师从冯晓云教授
-            <br/>Southwest Jiaotong Univeristy, Electrical Engineering, Ph.D., Supervised by Prof. Xiaoyun Feng
-        </td>
-    </tr> 
-    <tr>
-        <td width="150" colspan="1" align="left" style="border: none;">2013.09~2017.06</td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            <b>西南交通大学</b>  交通运输专业 学士
-            <br/>Southwest Jiaotong Univeristy, Transportation Engineering, B.S.
-        </td>
-    </tr>   
+        <!-- ==================== Experience ==================== -->
+        <section class="section">
+            <h2 class="section-header">
+                学习和工作经历
+                <span class="en">Education &amp; Work Experience</span>
+            </h2>
+            <div class="exp-list">
 
-</table>
+                <div class="exp-item">
+                    <div class="exp-date">2025.10 ~ 至今</div>
+                    <div class="exp-detail">
+                        <div class="title">浙江省交通运输科学研究院 · 高级工程师</div>
+                        <div class="en">Zhejiang Scientific Research Institute of Transport, Senior Engineer</div>
+                    </div>
+                </div>
 
-<p></p>
+                <div class="exp-item">
+                    <div class="exp-date">2022.09 ~ 2025.10</div>
+                    <div class="exp-detail">
+                        <div class="title">浙江省交通运输科学研究院 · 工程师</div>
+                        <div class="en">Zhejiang Scientific Research Institute of Transport, Engineer</div>
+                    </div>
+                </div>
 
-<!-- 出版物（已自动编号） -->
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" id="publications-table">   
-    <tr align="left">
-        <th colspan="7" bgcolor="lightgray" style="border: none;">出版物 Publications</th>
-    </tr>
+                <div class="exp-item">
+                    <div class="exp-date">2023.01 ~ 2025.03</div>
+                    <div class="exp-detail">
+                        <div class="title">浙江大学 · 博士后 <span style="color:#94a3b8;font-weight:400;">（师从王亦兵教授）</span></div>
+                        <div class="en">Zhejiang University, Postdoc, Supervised by Prof. Yibing Wang</div>
+                    </div>
+                </div>
 
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Yu J, Fu X, Yang S. Adaptive Horizon Model Predictive Control with Reinforcement Learning for Highway Local Ramp Metering[C]. 2024 International Annual Conference on Complex Systems and Intelligent Science (CSIS-IAC), Guangzhou, China, 2024, 120-125.
-            <a href="https://ieeexplore.ieee.org/document/10919369">[Web]</a>
-            <a href="files/publication/Jin 等 - 2024 - Adaptive Horizon Model Predictive Control with Reinforcement Learning for Highway Local Ramp Meterin.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            Que Z, <b>Jin B</b>, Lou R, Si Z, Dai H. Short-Term Traffic Flow Prediction Based on VMD-SMA-SVR[C]. 2024 6th International Conference on Data-driven Optimization of Complex Systems (DOCS), Hangzhou, China, 2024, 703-708.
-            <a href="https://ieeexplore.ieee.org/document/10704344">[Web]</a>
-            <a href="files/publication/Short-Term Traffic Flow Prediction Based on VMD-SM.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Yu J, He Y, Que Z, Yang S. Event-triggered Model Predictive Control with Reinforcement Learning for Highway Local Ramp Metering[C]. 2024 43rd Chinese Control Conference (CCC), Kunming, China, 2024, 6556-6561.
-            <a href="https://ieeexplore.ieee.org/document/10662464/">[Web]</a>
-            <a href="files/publication/Event-triggered Model Predictive Control with Rein.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Yu J, Yao J, Wang C, Fu L, Yang S. Distributed Model Predictive Control for Automatic Train Regulation in Metro Lines[C]. 2023 China Automation Congress (CAC), Chongqing, China, 2023, 4063-4068.
-            <a href="https://ieeexplore.ieee.org/document/10451926">[Web]</a>
-            <a href="files/publication/Distributed Model Predictive Control for Automatic.pdf">[Pdf]</a>
-        </td>
-    </tr>
-        <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Yang S, Feng X, Wang Q. Study on Energy-Saving Train Trajectory Optimization Based on Coasting Control in Metro Lines[J]. Journal of Advanced Transportation, 2023, 1217352.
-            <a href="https://www.hindawi.com/journals/jat/2023/1217352/">[Web]</a>
-            <a href="files/publication/Study on Energy-Saving Train Trajectory Optimizati.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Yu J, Zhou Y, Wang D, Zhang Y, Yang S. Simulation-driven multi-segment variable speed limits on freeway[C]. 2023 7th International Conference on Transportation Information and Safety (ICTIS), Xi'an, China, 2023, 1163-1167.
-            <a href="https://ieeexplore.ieee.org/document/10243987">[Web]</a>
-            <a href="files/publication/Simulation-driven multi-segment variable speed lim.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            Yu J, <b>Jin B</b>, He J, Li C, Chen S. Research on location-routing problem of highway and high-speed railway multimodal transportation considering timeliness demand[C]. 2023 7th International Conference on Transportation Information and Safety (ICTIS), Xi'an, China, 2023, 1-9.
-            <a href="https://ieeexplore.ieee.org/document/10243973">[Web]</a>
-            <a href="files/publication/Research on location-routing problem of highway an.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            Sun P, Zhang C, <b>Jin B</b>, Wang Q, Geng H. Timetable optimization for maximization of regenerative braking energy utilization in traction network of urban rail transit[J]. Computers & Industrial Engineering, 2023, 109448.
-            <a href="https://www.sciencedirect.com/science/article/pii/S0360835223004722?via%3Dihub">[Web]</a>
-            <a href="files/publication/Timetable optimization for maximization of regener.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            Geng H, Miyatake M, Wang Q, Sun P, <b>Jin B</b>. A method for optimizing urban rail transit timetable based on accurate power flow[J]. Mechanical Engineering Journal, 2023.
-            <a href="https://www.jstage.jst.go.jp/article/mej/10/3/10_22-00360/_article/-char/en">[Web]</a>
-            <a href="files/publication/A method for optimizing urban rail transit timetab.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Feng X, Wang Q, Sun P. Real-time train regulation method for metro lines with substation peak power reduction[J]. Computer & Industrial Engineering, 2022, 168: 108113.
-            <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360835222001838">[Web]</a>
-            <a href="files/publication/Real-time train regulation method for metro lines .pdf">[Pdf]</a>
-        </td>
-    </tr>
-	<tr>
-        <td colspan="7" align="left" style="border: none;">
-            姜森浩，孙鹏飞，<b>金波</b>, 张佳辉。数据驱动的重载列车多目标速度曲线规划算法研究 [J], 现代计算机，2022, 28(15): 1-8.
-            <br/><i>Jiang S, Sun P, Jin B, Zhang J. Data-Driven Multi-Objective Trajectory Planning Algorithm for Heavy-Haul Train[J], Modern Computer, 2022, 28(15): 1-8.</i>
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgzUE0XT8ysDAo19Y3uYB4MQnAUIfuycOtMBkdMRtlbWJkd4DiAhU_NN8T-7sDFnz2HmBpbrAVcgNA6Vb5YR8niG7l3S07sxtxGiVLgb_mdGEcZEAXndQmIJSGmcY_2LBpYxjhZelh85c4iNZVYj9RIFcf2XniUmElfjAbPm6GGHU0hf7GbFOI9CS3fYgYYy6mU=&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/publication/数据驱动的重载列车多目标速度曲线规划算法研究.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>金波</b>, 郭佑星，王青元，孙鹏飞，冯晓云。考虑大小交路的时刻表与车底运用计划一体化编制方法 [J], 中国铁道科学，2022, 43(3): 173-181.
-            <br/><i>Jin B, Guo Y, Wang Q, Sun P, Feng X. Integrated scheduling method of timetable and rolling stock assignment scheme considering long and short routing[J], China Railway Science, 2022, 43(3): 173-181.</i>
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgwh_GAPc3qGboITtH55CApg-TcG2NmfknXcSVHRhPUXODbRAkDSPNZOY32B4VeUwtCubA4o3KGECplGZjeq-rinA4_rUz8cSQ77FR8DrgmWlgDsAsnCq5IACRmx3V_U4NZdO7hwLbXLrazIXuPOjUiIbMZoLVWb9ALTOwiq8vxfgzPCjD9eHjSsSx0z6WTc4Ds=&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/publication/考虑大小交路的时刻表与车底运用计划一体化编制方法.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            黄德青，蔡汉林，王青元，江明，<b>金波</b>, 崔佳诺。地铁列车协同操纵的节能优化方法 [J]. 中国铁道科学，2022, 43(3): 155-163.
-            <br/><i>Huang D, Cai H, Wang Q, Jiang M, Jin B, Cui J. Energy-saving optimization approach for cooperative control of metro train[J]. China Railway Science, 2022, 43(3): 155-163.</i>
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgxRTvxMNfEA_xJjwbQ8QBKILbzEuuOCM785b8BoCY4EO5Lak2AEGxDTqJQ0zixXRboW9j84Y9H1VNEe0_dll8hkHyZBpcQVriPQCgWfVkWkCQZ2ioDDKpB0dKMJhHe_TL5Ek0pgiAwsScxCYSpt3q13Bwg0vpuxmR7qTyJ1ApKWhYBjeW-iInTXwEe30Pgqt9Q=&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/publication/地铁列车协同操纵的节能优化方.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Fang Q, Wang Q, Sun P, Feng X. Energy-efficient train control in urban rail transit: multi-train dynamic cooperation based on train-to-train communication[C] 2021 IEEE Intelligent Vehicles Symposium (IV), Nagoya, 2021: 309-314.
-            <a href="https://ieeexplore.ieee.org/document/9575801">[Web]</a>
-            <a href="files/publication/Energy-Efficient Train Control in Urban Rail Trans.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Feng X, Wang Q, Sun P, Fang Q. Train scheduling method to reduce substation energy consumption and peak power of metro transit systems[J], Transportation Research Record: Journal of the Transportation Research Board, 2021, 2675(4): 201-212.
-            <a href="https://journals.sagepub.com/doi/abs/10.1177/0361198120974677">[Web]</a>
-            <a href="files/publication/Train Scheduling Method to Reduce Substation Energ.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Sun P, Wang Q, Feng X. Two-step method to reduce metro transit energy consumption by optimising speed profile and timetable[J]. IET Intelligent Transport Systems, 2020, 14(9): 1097-1107.
-            <a href="https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/iet-its.2019.0103">[Web]</a>
-            <a href="files/publication/Two‐step method to reduce metro transit energy con.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>金波</b>, 孙鹏飞，王青元，冯晓云。基于混合整数规划的高速列车多区间节能优化研究 [J]. 铁道学报，2020, 42(2): 11-17
-            <br/><i>Jin B, Sun P, Wang Q, Feng X. Energy-saving optimization of multi-interstation high-speed train with mixed integer linear programming[J]. Journal of The China Railway Society, 2020, 42(2): 11-17.</i>
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgzmXvvdZ4W2AHgVOmdDz6SrP_mWHVpy6zGhwv0Y1y4VyHJUHrQquolUZc4xFcwNwpvRGytCXFrYJZ9zbF52nJHLWSisO2JgxND3wHF9-bSU_2G9XOl_760ege-LSkLu75jYE1g6gsiaUkVqrH2doCytxqr10jW3DbmV-tBCZdC7DLdCX1924TNjcARGGxd9Cgs=&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/publication/基于混合整数规划的高速列车多区间节能优化研究.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Feng X, Sun P, Chen M, Chai Y. Energy saving in metro transit substation through train trajectory optimization[C]. 2019 IEEE Intelligent Transportation Systems Conference (ITSC), Auckland, 2019: 2829-2834.
-            <a href="https://ieeexplore.ieee.org/document/8917329">[Web]</a>
-            <a href="files/publication/Energy Saving in Metro Transit Substation through .pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Feng X, Wang Q, Wang X, Liu C. Improving timetable robustness through optimal distribution of runtime supplement[C]. 2019 IEEE Intelligent Transportation Systems Conference (ITSC), Auckland, 2019: 1-6.
-            <a href="https://ieeexplore.ieee.org/document/8917477">[Web]</a>
-            <a href="files/publication/Improving Timetable Robustness through Optimal Dis.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            Chen M, Xiao Z, Sun P, Wang Q, <b>Jin B</b>, Feng X. Energy-efficient driving strategies for multi-train by optimization and update speed profiles considering transmission losses of regenerative energy[J]. Energies, 2019. 12(18): 3573.
-            <a href="https://www.mdpi.com/1996-1073/12/18/3573">[Web]</a>
-            <a href="files/publication/Energy-Efficient Driving Strategies for Multi-Trai.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>Jin B</b>, Sun P, Xu M, Wang Q. Train timetable and trajectory optimization using improved state-space MILP[C]. Proceedings of the 37th Chinese Control Conference (CCC), Wuhan, 2018: 7748-7753.
-            <a href="https://ieeexplore.ieee.org/document/8483300">[Web]</a>
-            <a href="files/publication/Train Timetable and Trajectory Optimization Using .pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            童燚杰，王利鑫，潘明轩，李正洋，<b>金波</b>. 基于数量统计的地铁车站换乘走行时间估计研究 [J]. 交通科技与经济，2016, 18(1): 7-11.
-            <br/><i>Tong Y, Wang L, Pan M, Li Z, Jin B. Estimation on the transfer walking time in the subway station based on mathematic statistics[J]. Technology & Economy in Areas of Communication, 2016, 18(1): 7-11.</i>
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgwml8hQUZqflCI8pGSnnRx2Q4Yevo9aKj_YW7zC58OZeAucjfyfLLk8qP84ZpUUyOeCqap4VFWiKlUj-v6QohtMRFQy55-m0EcEgBlc5wT9yPz8jZbDAttVG244XwNNBogbuBnY7Vf5pmJn0t6JhUdKRE79CywVnBXSVPX1cqnZFtJ8KYGF7QixlX-FXkuq2YM=&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/publication/基于数理统计的地铁车站换乘走行时间估计研究.pdf">[Pdf]</a>
-        </td>
-    </tr>
-</table>
+                <div class="exp-item">
+                    <div class="exp-date">2017.09 ~ 2022.09</div>
+                    <div class="exp-detail">
+                        <div class="title">西南交通大学 · 电气工程专业 博士 <span style="color:#94a3b8;font-weight:400;">（师从冯晓云教授）</span></div>
+                        <div class="en">Southwest Jiaotong University, Electrical Engineering, Ph.D., Supervised by Prof. Xiaoyun Feng</div>
+                    </div>
+                </div>
 
-<p></p>
+                <div class="exp-item">
+                    <div class="exp-date">2013.09 ~ 2017.06</div>
+                    <div class="exp-detail">
+                        <div class="title">西南交通大学 · 交通运输专业 学士</div>
+                        <div class="en">Southwest Jiaotong University, Transportation Engineering, B.S.</div>
+                    </div>
+                </div>
 
-<!-- 专利（自动编号） -->
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" id="patents-table">
-    <tr align="left">
-        <th colspan="7" bgcolor="lightgray" style="border: none;">专利 Patents</th>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            高介敦, 姚佳娜, 阮贝, 杨一飞, 张天才, <b>金波</b>, 洪强, 何亚强, 傅鑫亮, 张冶芳, 娄刃. 基于Retinex-S-Curve-Estimation的隧道内极低照度改善方法[发明专利]. 	CN120495150B, 2025.09.26
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=Ow72tX7v2w1-NnH8TKfkRnioxkIU81THJKOI_-hlVeu74UJdXfmHwno5pgv5grVdWBdHngbjfuqVWTBBWfgsWYIoKWIyA-crIhmUXG3fhKL2k8Er3BBfa9PqQxbDwyho8QDaXYERJZ8CtVg80JjSsEwr3CR7nMVDeKhG9mIhkDFTbye6naU0LQ==&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/发明专利证书_基于Retinex-S-Curve-Estimation的隧道内极低照度改善方.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>金波</b>, 阙祖琛, 朱铭耀, 汪成立, 高介敦, 娄刃. 一种可扩展的高速公路交通流管控的多策略协同优化方法[发明专利]. CN120260267B, 2025.11.11.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=mg_qcPBBapnjl_ubPAIn8AUYqvgFaAa6wWBUPS529-FWHbwAc0Rye0siti5PDzq9cYs2JUpY0q_YcfBzSNItYRGxwzJHmhbWtWAy8p0xoOjmWz0fvlKh_Xv0DGzJzrMQ5GBfFcA9kUtU-_GP5D-TQ2jPVwyAM4cuhelTbz-tICeXiJ-3GH6rGQ==&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/一种可扩展的高速公路交通流管控的多策略协同优化方法.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            娄刃, 张天才, 姚佳娜, 何亚强, 傅鑫亮, 张冶芳, 韩霄, <b>金波</b>, 汪成立, 高介敦. 基于Retinex-DCE-YOLOv5s的隧道机电设备识别方法及系统[发明专利]. CN120047776B, 2025.07.01.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=fvwDbTJIyzRwu50JFQwYYuYG3v7_69nBeEy2qa6iOoudGOphQEh3Nper0B8WChIk2RW9oF_U4J94heZsiehMOaVjywwBks4td019Nezi7PI-_U29wMtd6fIxDXsxrNpd4dhM0j0NJJlp5P_DfhZGNIfOsh5XHTjG0UCrZi4HsmK1HkGVGfcg-Q==&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/发明专利证书_基于Retinex-DCE-YOLOv5s的隧道机电设备识别方法及系统.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            阙祖琛, <b>金波</b>, 相强强, 周伊江, 娄刃. 基于支持向量回归的高速公路短时交通流预测方法及装置[发明专利]. CN117975731B, 2025.04.11.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=HgkNOCd8VPjdtvn0siAhGT8o-uPP_3c1TLJdLYgOI1512Y5OKm9CcPGvO472shVvUUUViPdsLgd6K_KzxX9Ia9Z9UEIvfneiw0V1to8OEedyZY-bR_HgYZzFiYPsauJ8ePA4vxf-KeOY8cDbFWnV4Gb-qAGjyJ7-m9JOeDdwWa6j1B2522lcew==&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/基于支持向量回归.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>金波</b>, 余佳洋, 汪成立, 娄刃, 郑亦殷, 阙祖琛. 一种基于车群分解的高速公路分布式微观交通仿真方法[发明专利]. CN117975731B, 2025.04.11.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=HgkNOCd8VPi1p9yuC43bS2IE3dIeQNWLAopnRpwW5jMbpbbMeMw_gGMrem-T4tIrp4WZDMzrvveL8qc0M3KYzeN8dd4tjPVzZackckP1P-B26BDvBkSTKl_o7SB_5r864hmlXSHgOzJyEAiLkVJaAYdos_SB9kSphxo-QO4CdwBNBCdiQA3Fzw==&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/一种基于车群分解.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            何亚强, 汪成立, <b>金波</b>, 高介敦, 应豪, 娄刃, 洪强. 一种交通物联网感知设备数据采集接口分析管理系统[发明专利]. CN118984285B, 2025.01.24.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=LzEBRIJt2Q2eAXPyXz-DWtH4XkOlxk0mFc-s56c9m1twaKdCGvw9vwi9Qd6oAKRVJCIb_RnHSj6ObiTZFWZ6xGDtoCo3hUXEAyOqehz_tAIeuKWI1K74vMHcec7uc62A6EJITfbHdobwUa9a_X4GzwdXM1FOjEV0Bnxd53aRe42ncX51qMqkhzj5UXSbv5ob&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/一种交通物联网感知设备数据采集接口分析管理系统.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            汪成立, 何亚强, <b>金波</b>, 高介敦, 洪强, 陈典, 傅鑫亮. 一种交通物联网感知设备统一接入管理系统[发明专利]. CN119052057B, 2025.02.18.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=LzEBRIJt2Q3dnMS1cRGe1bHMIJZChIABkH2nsFl55ZRzrQ8WJJ7J-K2iCi_0_MvFGbFkNXbQ9AxyWaA2vlMmukx4sedxp7eh9BfJc4zHMY_Wn-VQmIn9n4XL4zbH31rpcLMxs74ShNs16HTXutTaWs_BF9ydmXF3QXrg_uqas-G0FiI6FX9qRgM7xozMAQPa&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/一种交通物联网感知设备统一接入管理系统.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>金波</b>, 余佳洋, 阙祖琛, 汪成立, 洪强, 姚佳娜. 基于强化学习和事件触发预测的高速公路匝道管控方法[发明专利]. CN 118430252 B, 2024.10.11.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=UjEBX92ALNHGFMmmwZ9Mz7tr2070H3OOGIgycuTdIpq4HfkmX6Zg6PFvg9dTS_53_JVyfMDtwg_gSUXRc9ZtX5bLmGWOuvwWIOVgD3nHlHI9p27v4k_UWjlxowf24uvaYJbuzd4AudEFX1o2_GCmMFoNNKsDAmzrXCRtYUWAWN1NTDwt2PX2ylRW8YEkB_j2&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/基于强化学习和事件触发.pdf">[Pdf]</a>
-        </td>
-    </tr>
-	<tr>
-        <td colspan="7" align="left" style="border: none;">
-            <b>金波</b>, 娄刃, 何亚强, 汪成立, 张俊烨, 杨松, 张冶芳. 一种基于强化学习的高速公路交通管控方法[发明专利]. CN 115713860 B, 2023.12.15.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=lxIxReJOxldtQgcWBpxlLLdbsdzVJKz8D79QXnmMBPZHFLNb1hG7aXc8Mr9yHPwsZFhF_8QXDTktkmC9FjKo5AX5kUsTzWH6TgESIzNzQySprgmI-uplHIXtohSd9GM3N8ts2BU_by8=&uniplatform=NZKPT&language=CHS">[Web]</a>
-            <a href="files/patents/一种基于强化学习的高速公路交通管控方法.pdf">[Pdf]</a>
-        </td>
-    </tr>
-	<tr>
-        <td colspan="7" align="left" style="border: none;">
-            孙鹏飞, 张传鑫, 王青元, 陈小龙, <b>金波</b>, 冯晓云. 一种城市轨道交通运行调度方法及系统[发明专利]. CN 113743828 B, 2023.04.07.
-            <a href="https://kns.cnki.net/kcms2/article/abstract?v=kxaUMs6x7-4I2jr5WTdXti3zQ9F92xu0Qg-R0xSsdGdCfhLaAHW6RDL8vCvSm3uDa9HSgrHVzR4Xi4owGRvPoSAVRJbXAReM&uniplatform=NZKPT">[Web]</a>
-        </td>
-    </tr>	
-	<tr>
-        <td colspan="7" align="left" style="border: none;">
-            葛学超, 王青元, 王玉冰, <b>金波</b>, 高天, 孙鹏飞. 考虑大小交路的时刻表和车底运用计划编制方法[发明专利]. CN 112734095 B, 2022.08.26.
-			<a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgxAgJ6M9NLc_LWEMK2OE3DLM_9BWnN20HVJEgR742k6Y0wXSifCjY0WtxiouO93j_Rp6_QykyoWMmSdFKwrr6C-JBRY9e0oTvoUJ_HiNF4QckkFzWRuELBvoh2iyqtsnCPndbxqmzomsRbBHF3XhLeU2EfKSB80xfcPuzvso1gynZ5mpFOX62euf7lIBEwW8Uxja1tfsflAMQ==&uniplatform=NZKPT&language=CHS">[Web]</a>
-        </td>
-    </tr>	
-	<tr>
-        <td colspan="7" align="left" style="border: none;">
-            冯晓云, <b>金波</b>, 孙鹏飞, 王青元, 方倩, 宋文胜, 王嵩. 城市轨道交通时刻表与车底运用计划智能规划方法[发明专利]. CN 111523814 B, 2022.02.11.
-			<a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgw_fHn0xurUtDN2LRj9qfmbl_2es8ZvCpge_DbwFBclNGDDN_LInkxR4bZQ0jM0e8GeqkiXnYbzFdOlgfIOagLinGshrBOwBoFjaRgUfmqhdPtMvcRjMQzJ0Nobw-M_5lC74GElDfIOnzsjwNeDc_dHlaDKuvHOQWtd3fyMKblHZuXC66OJE5Oj&uniplatform=NZKPT&language=CHS">[Web]</a>
-        </td>
-    </tr>	
-	<tr>
-        <td colspan="7" align="left" style="border: none;">
-            孙鹏飞, <b>金波</b>, 王青元, 陈默, 王晓文, 郭金松. 城市轨道交通节能时刻表和运行曲线优化方法[发明专利]. CN 109815536 B, 2020.10.30.
-			<a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgwJlp463JOnKnQIpHiDGLUZN3Iwu_CcT_Aqk4JQcP_b-JgB2tM6j9oQGGPY0XmyPGv386w0fCCub1h17dxeWlIaRYtCZ38mizDLIvNCKy6Bf5YeDVRyVdB-6dcdGkAZSQiFm5h8bhUWYzyxNJ68aX1bfnIryfF0BZmrKLVVUM1NJDkl0CUGasfiTyDT0uX02ro=&uniplatform=NZKPT&language=CHS">[Web]</a>
-        </td>
-    </tr>	
-	<tr>
-        <td colspan="7" align="left" style="border: none;">
-            贺政纲, 余佳洋, 张骏杰, <b>金波</b>, 帅宇红, 孙逊. 一种填充物循环利用的快递包装柜[实用新型]. CN 210417242 U, 2020.04.28.
-			<a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgy18T0ZQfqq_mZSFuEPybGky70qBt3Bj7mkrM40destE4XQMgW6so4EG-42mg65v9v2RV7K0O23baOk8DsWL0zpOIgWQB4s_zAVfA0w1VTmOpdzvBuzF3B7F5aluy5sxqcJs5xy5BQGQuB332QcxomkSkdqe2uKsvh-mk3dZ8_T-xPLelv4Djy91vSKF-qO4Ow=&uniplatform=NZKPT&language=CHS">[Web]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            贺政纲, 余佳洋, 张骏杰, <b>金波</b>, 帅宇红, 孙逊. 一种自助式快递包装操作柜[实用新型]. CN 209821961 U, 2019.12.20.
-			<a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgwffYiuNtDnmLwICApxYfGYSlSGeMt_dRvD-lhzrqc3x3bRtxu7b9cJjH6VwnDfi1OFPghYstQSBaLJ-dD34lUesVXHIql0AdOlFan-GkcMwlvHGmUNtzlYGbIfzWQXovRq99okX3Ufz0F8X1jZq4fOg20RCYxaw8Cpxk8t_ZCyY1V6bteyz3R7&uniplatform=NZKPT&language=CHS">[Web]</a>
-        </td>
-    </tr> 
-</table>
+            </div>
+        </section>
 
-<p></p>
+        <!-- ==================== Publications ==================== -->
+        <section class="section">
+            <h2 class="section-header">
+                出版物
+                <span class="en">Publications</span>
+            </h2>
+            <div class="entry-list" id="publications-list">
 
-<!-- 软著（自动编号） -->
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" id="softness-table">
-    <tr align="left">
-        <th colspan="7" bgcolor="lightgray" style="border: none;">软著 Softness</th>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            数据驱动的交通流模型预测控制软件 V1.0. 2025SR1002253. 2025.06.13.
-            <a href="files/softness/数据驱动的交通流模型预测控制软件.pdf">[Pdf]</a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            高速公路微观交通仿真软件 V1.0. 2024SR0103440. 2024.01.16.
-            <a href="files/softness/高速公路微观交通仿真软件.pdf">[Pdf]</a>
-        </td>
-    </tr>
-</table>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Yu J, Fu X, Yang S. Adaptive Horizon Model Predictive Control with Reinforcement Learning for Highway Local Ramp Metering[C]. 2024 International Annual Conference on Complex Systems and Intelligent Science (CSIS-IAC), Guangzhou, China, 2024, 120-125.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/10919369">Web</a>
+                            <a href="files/publication/Jin 等 - 2024 - Adaptive Horizon Model Predictive Control with Reinforcement Learning for Highway Local Ramp Meterin.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<p></p>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        Que Z, <b>Jin B</b>, Lou R, Si Z, Dai H. Short-Term Traffic Flow Prediction Based on VMD-SMA-SVR[C]. 2024 6th International Conference on Data-driven Optimization of Complex Systems (DOCS), Hangzhou, China, 2024, 703-708.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/10704344">Web</a>
+                            <a href="files/publication/Short-Term Traffic Flow Prediction Based on VMD-SM.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<!-- 标准（自动编号） -->
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" id="standard-table">
-    <tr align="left">
-        <th colspan="7" bgcolor="lightgray" style="border: none;">标准 Standard</th>
-    </tr>
-    <tr>
-        <td colspan="7" align="left" style="border: none;">
-            自动驾驶道路测试安全风险评估技术规范. DB33/T 310020-2024. 2024.01.14.
-			<a href="https://zlzx.zjamr.zj.gov.cn/bzzx/public/std/db/view/4e93600b07ee4813a675a309da48ba5a.html">[Web]</a>
-            <a href="files/standard/长三角标准2024.pdf">[Pdf]</a>
-        </td>
-    </tr>
-</table>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Yu J, He Y, Que Z, Yang S. Event-triggered Model Predictive Control with Reinforcement Learning for Highway Local Ramp Metering[C]. 2024 43rd Chinese Control Conference (CCC), Kunming, China, 2024, 6556-6561.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/10662464/">Web</a>
+                            <a href="files/publication/Event-triggered Model Predictive Control with Rein.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<p></p>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Yu J, Yao J, Wang C, Fu L, Yang S. Distributed Model Predictive Control for Automatic Train Regulation in Metro Lines[C]. 2023 China Automation Congress (CAC), Chongqing, China, 2023, 4063-4068.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/10451926">Web</a>
+                            <a href="files/publication/Distributed Model Predictive Control for Automatic.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<!-- 课题（自动编号） -->
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" id="research-table"> 
-    <tr align="left">
-        <th colspan="7" bgcolor="lightgray" style="border: none;">课题 Reaearch Projects</th>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2024.01~2025.06 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            高速公路交通流主动管控决策系统关键技术研究, <b>浙江省交通运输科学研究院自主研发项目</b>, ZK202411, 主持
-        </td>
-    </tr>
-	<tr>    
-        <td width="200" colspan="1" align="left" style="border: none;">2023.02~2023.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            仿真驱动的高速公路/国省道应急处置方案优化算法研究, <b>浙江省交通运输科学研究院自主研发项目</b>, ZK202321, 主持
-        </td>
-    </tr> 
-	<tr>    
-        <td width="200" colspan="1" align="left" style="border: none;">2022.10~2023.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            自动驾驶道路测试安全风险评估技术规范, <b>长三角地方标准项目</b>, KY202208, 主持
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2025.01~2025.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            交通基础设施数据元标准研究, <b>浙江省交通运输厅科技计划项目</b>, 2023014, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2023.01~2024.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            交通物联网感知设备统一接入管理技术研究, <b>浙江省交通运输厅科技计划项目</b>, 2023013, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2023.01~2024.06 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            交通流雷视融合感知系统评测技术研究, <b>浙江省交通运输厅科技计划项目</b>, 202209, 参与
-        </td>
-    </tr>
-	<tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2022.09~2023.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            基于数字孪生的智慧高速公路交通流全时空管控关键技术及应用示范, <b>浙江省重点研发计划项目</b>, 2021C01011, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2021.12~2022.06 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            川藏铁路列车智能操控理论与关键技术研究, <b>国家自然科学基金项目-联合基金项目</b>, U21A20169, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2016.07~2020.06 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            多效应耦合及智能控制技术研究, <b>国家重点研发计划项目</b>, 2016YFB1200502-02, 参与
-        </td>
-    </tr>
-</table>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Yang S, Feng X, Wang Q. Study on Energy-Saving Train Trajectory Optimization Based on Coasting Control in Metro Lines[J]. Journal of Advanced Transportation, 2023, 1217352.
+                        <span class="entry-links">
+                            <a href="https://www.hindawi.com/journals/jat/2023/1217352/">Web</a>
+                            <a href="files/publication/Study on Energy-Saving Train Trajectory Optimizati.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<p></p>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Yu J, Zhou Y, Wang D, Zhang Y, Yang S. Simulation-driven multi-segment variable speed limits on freeway[C]. 2023 7th International Conference on Transportation Information and Safety (ICTIS), Xi'an, China, 2023, 1163-1167.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/10243987">Web</a>
+                            <a href="files/publication/Simulation-driven multi-segment variable speed lim.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<!-- 工程项目（自动编号） -->
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" id="project-table"> 
-    <tr align="left">
-        <th colspan="7" bgcolor="lightgray" style="border: none;">项目 Engineering Projects</th>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2024.09~</td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            杭州南管理中心亚运通勤道路拥堵治理后评估技术服务, <b>浙交投杭金衢分公司杭绍管理处</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2025.01~</td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            G527义乌段（G60上溪互通至G1512义乌东互通）隧道智慧化运行管控（高地联动）项目, <b>义乌市公路运输与管理中心</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2025.05~2025.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            基于高速公路ETC门架数据交通调查应用研究项目, <b>湖州市公路运输与管理中心</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2025.01~2025.06 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            集团招标采购管理中心应用场景监测服务（浙高运）项目, <b>浙江交投高速公路运营管理有限公司金华管理处</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2025.01~2025.06 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            浙江省公路与运输管理中心公路基础设施数字化转型升级咨询审查项目(标项一), <b>浙江省公路与运输管理中心</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2024.11~2024.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            高速公路安全管理现状调查分析及管理模式创新咨询服务项目, <b>浙江台州甬台温高速公路有限公司</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2024.01~2024.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            湖杭高速公路吴兴至德清段工程第JD02标段智慧高速应用和示范软件, <b>浙江高信技术股份有限公司</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2023.07~2023.11 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            基于数字孪生的智慧高速公路交通流全时空管控关键技术及应用示范, <b>上海电科智能系统股份有限公司</b>, 参与
-        </td>
-    </tr>
-	<tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2023.03~2023.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            杭州南管理中心亚运通勤道路拥堵治理-典型交通事件管控预案, <b>浙江数智交院科技股份有限公司</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2023.01~2023.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            温州绕城北线智慧高速课题应用示范应用技术服务项目, <b>温州市交投智慧交通科技有限公司</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2023.06~2023.07 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            衢州管理中心2023年度市级道路交通事故多发路段点安全评价服务项目, <b>浙交投杭金衢分公司衢州管理处</b>, 参与
-        </td>
-    </tr>
-    <tr>    
-        <td width="200" colspan="1" align="left" style="border: none;">2023.04~2023.04 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            杭金衢衢向K205-K213路段安全评价服务项目, <b>浙交投杭金衢分公司杭绍管理处</b>, 参与
-        </td>
-    </tr> 
-    <tr>    
-        <td width="200" colspan="1" align="left" style="border: none;">2023.04~2023.04 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            杭金衢杭向K191路段安全评价服务项目, <b>浙交投杭金衢分公司杭绍管理处</b>, 参与
-        </td>
-    </tr> 
-    <tr>    
-        <td width="200" colspan="1" align="left" style="border: none;">2023.03~2023.04 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            杭金衢衢向K187路段安全评价服务项目, <b>浙交投杭金衢分公司杭绍管理处</b>, 参与
-        </td>
-    </tr>
-    <tr>    
-        <td width="200" colspan="1" align="left" style="border: none;">2019.07~2022.06 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            地铁列车运行节能优化控制技术研究, <b>中车青岛四方车辆研究所有限公司</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2017.12~2018.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            动车组运行准点节能优化控制技术研究, <b>北京纵横机电技术开发公司</b>, 参与
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2016.09~2017.09 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            蒙华铁路列车牵引计算有关问题研究, <b>蒙西华中铁路股份有限公司</b>, 参与
-        </td>
-    </tr>
-</table>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        Yu J, <b>Jin B</b>, He J, Li C, Chen S. Research on location-routing problem of highway and high-speed railway multimodal transportation considering timeliness demand[C]. 2023 7th International Conference on Transportation Information and Safety (ICTIS), Xi'an, China, 2023, 1-9.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/10243973">Web</a>
+                            <a href="files/publication/Research on location-routing problem of highway an.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<p></p>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        Sun P, Zhang C, <b>Jin B</b>, Wang Q, Geng H. Timetable optimization for maximization of regenerative braking energy utilization in traction network of urban rail transit[J]. Computers &amp; Industrial Engineering, 2023, 109448.
+                        <span class="entry-links">
+                            <a href="https://www.sciencedirect.com/science/article/pii/S0360835223004722?via%3Dihub">Web</a>
+                            <a href="files/publication/Timetable optimization for maximization of regener.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<!-- 获奖（自动编号） -->
-<table width="80%" height="30%" cellpadding="5px" cellspacing="0" border="1" align="center" style="border: none;" id="awards-table">
-    <tr align="left">
-        <th colspan="7" bgcolor="lightgray" style="border: none;">获奖 Awards</th>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2020.09 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            <b>四川省“互联网+”创新创业大赛</b>, 银奖
-        </td>
-    </tr>
-    <tr>
-        <td width="200" colspan="1" align="left" style="border: none;">2019.12 </td>
-        <td width="100" colspan="3" align="left" style="border: none;">
-            <b>四川省“互联网+”创新创业大赛</b>, 铜奖
-        </td>
-    </tr>
-</table>
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        Geng H, Miyatake M, Wang Q, Sun P, <b>Jin B</b>. A method for optimizing urban rail transit timetable based on accurate power flow[J]. Mechanical Engineering Journal, 2023.
+                        <span class="entry-links">
+                            <a href="https://www.jstage.jst.go.jp/article/mej/10/3/10_22-00360/_article/-char/en">Web</a>
+                            <a href="files/publication/A method for optimizing urban rail transit timetab.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
 
-<p></p>
- 
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Feng X, Wang Q, Sun P. Real-time train regulation method for metro lines with substation peak power reduction[J]. Computer &amp; Industrial Engineering, 2022, 168: 108113.
+                        <span class="entry-links">
+                            <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360835222001838">Web</a>
+                            <a href="files/publication/Real-time train regulation method for metro lines .pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        姜森浩，孙鹏飞，<b>金波</b>, 张佳辉。数据驱动的重载列车多目标速度曲线规划算法研究 [J], 现代计算机，2022, 28(15): 1-8.<br>
+                        <span class="en">Jiang S, Sun P, Jin B, Zhang J. Data-Driven Multi-Objective Trajectory Planning Algorithm for Heavy-Haul Train[J], Modern Computer, 2022, 28(15): 1-8.</span>
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgzUE0XT8ysDAo19Y3uYB4MQnAUIfuycOtMBkdMRtlbWJkd4DiAhU_NN8T-7sDFnz2HmBpbrAVcgNA6Vb5YR8niG7l3S07sxtxGiVLgb_mdGEcZEAXndQmIJSGmcY_2LBpYxjhZelh85c4iNZVYj9RIFcf2XniUmElfjAbPm6GGHU0hf7GbFOI9CS3fYgYYy6mU=&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/publication/数据驱动的重载列车多目标速度曲线规划算法研究.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>金波</b>, 郭佑星，王青元，孙鹏飞，冯晓云。考虑大小交路的时刻表与车底运用计划一体化编制方法 [J], 中国铁道科学，2022, 43(3): 173-181.<br>
+                        <span class="en">Jin B, Guo Y, Wang Q, Sun P, Feng X. Integrated scheduling method of timetable and rolling stock assignment scheme considering long and short routing[J], China Railway Science, 2022, 43(3): 173-181.</span>
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgwh_GAPc3qGboITtH55CApg-TcG2NmfknXcSVHRhPUXODbRAkDSPNZOY32B4VeUwtCubA4o3KGECplGZjeq-rinA4_rUz8cSQ77FR8DrgmWlgDsAsnCq5IACRmx3V_U4NZdO7hwLbXLrazIXuPOjUiIbMZoLVWb9ALTOwiq8vxfgzPCjD9eHjSsSx0z6WTc4Ds=&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/publication/考虑大小交路的时刻表与车底运用计划一体化编制方法.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        黄德青，蔡汉林，王青元，江明，<b>金波</b>, 崔佳诺。地铁列车协同操纵的节能优化方法 [J]. 中国铁道科学，2022, 43(3): 155-163.<br>
+                        <span class="en">Huang D, Cai H, Wang Q, Jiang M, Jin B, Cui J. Energy-saving optimization approach for cooperative control of metro train[J]. China Railway Science, 2022, 43(3): 155-163.</span>
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgxRTvxMNfEA_xJjwbQ8QBKILbzEuuOCM785b8BoCY4EO5Lak2AEGxDTqJQ0zixXRboW9j84Y9H1VNEe0_dll8hkHyZBpcQVriPQCgWfVkWkCQZ2ioDDKpB0dKMJhHe_TL5Ek0pgiAwsScxCYSpt3q13Bwg0vpuxmR7qTyJ1ApKWhYBjeW-iInTXwEe30Pgqt9Q=&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/publication/地铁列车协同操纵的节能优化方.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Fang Q, Wang Q, Sun P, Feng X. Energy-efficient train control in urban rail transit: multi-train dynamic cooperation based on train-to-train communication[C] 2021 IEEE Intelligent Vehicles Symposium (IV), Nagoya, 2021: 309-314.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/9575801">Web</a>
+                            <a href="files/publication/Energy-Efficient Train Control in Urban Rail Trans.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Feng X, Wang Q, Sun P, Fang Q. Train scheduling method to reduce substation energy consumption and peak power of metro transit systems[J], Transportation Research Record: Journal of the Transportation Research Board, 2021, 2675(4): 201-212.
+                        <span class="entry-links">
+                            <a href="https://journals.sagepub.com/doi/abs/10.1177/0361198120974677">Web</a>
+                            <a href="files/publication/Train Scheduling Method to Reduce Substation Energ.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Sun P, Wang Q, Feng X. Two-step method to reduce metro transit energy consumption by optimising speed profile and timetable[J]. IET Intelligent Transport Systems, 2020, 14(9): 1097-1107.
+                        <span class="entry-links">
+                            <a href="https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/iet-its.2019.0103">Web</a>
+                            <a href="files/publication/Two‐step method to reduce metro transit energy con.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>金波</b>, 孙鹏飞，王青元，冯晓云。基于混合整数规划的高速列车多区间节能优化研究 [J]. 铁道学报，2020, 42(2): 11-17<br>
+                        <span class="en">Jin B, Sun P, Wang Q, Feng X. Energy-saving optimization of multi-interstation high-speed train with mixed integer linear programming[J]. Journal of The China Railway Society, 2020, 42(2): 11-17.</span>
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgzmXvvdZ4W2AHgVOmdDz6SrP_mWHVpy6zGhwv0Y1y4VyHJUHrQquolUZc4xFcwNwpvRGytCXFrYJZ9zbF52nJHLWSisO2JgxND3wHF9-bSU_2G9XOl_760ege-LSkLu75jYE1g6gsiaUkVqrH2doCytxqr10jW3DbmV-tBCZdC7DLdCX1924TNjcARGGxd9Cgs=&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/publication/基于混合整数规划的高速列车多区间节能优化研究.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Feng X, Sun P, Chen M, Chai Y. Energy saving in metro transit substation through train trajectory optimization[C]. 2019 IEEE Intelligent Transportation Systems Conference (ITSC), Auckland, 2019: 2829-2834.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/8917329">Web</a>
+                            <a href="files/publication/Energy Saving in Metro Transit Substation through .pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Feng X, Wang Q, Wang X, Liu C. Improving timetable robustness through optimal distribution of runtime supplement[C]. 2019 IEEE Intelligent Transportation Systems Conference (ITSC), Auckland, 2019: 1-6.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/8917477">Web</a>
+                            <a href="files/publication/Improving Timetable Robustness through Optimal Dis.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        Chen M, Xiao Z, Sun P, Wang Q, <b>Jin B</b>, Feng X. Energy-efficient driving strategies for multi-train by optimization and update speed profiles considering transmission losses of regenerative energy[J]. Energies, 2019. 12(18): 3573.
+                        <span class="entry-links">
+                            <a href="https://www.mdpi.com/1996-1073/12/18/3573">Web</a>
+                            <a href="files/publication/Energy-Efficient Driving Strategies for Multi-Trai.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>Jin B</b>, Sun P, Xu M, Wang Q. Train timetable and trajectory optimization using improved state-space MILP[C]. Proceedings of the 37th Chinese Control Conference (CCC), Wuhan, 2018: 7748-7753.
+                        <span class="entry-links">
+                            <a href="https://ieeexplore.ieee.org/document/8483300">Web</a>
+                            <a href="files/publication/Train Timetable and Trajectory Optimization Using .pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        童燚杰，王利鑫，潘明轩，李正洋，<b>金波</b>. 基于数量统计的地铁车站换乘走行时间估计研究 [J]. 交通科技与经济，2016, 18(1): 7-11.<br>
+                        <span class="en">Tong Y, Wang L, Pan M, Li Z, Jin B. Estimation on the transfer walking time in the subway station based on mathematic statistics[J]. Technology &amp; Economy in Areas of Communication, 2016, 18(1): 7-11.</span>
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgwml8hQUZqflCI8pGSnnRx2Q4Yevo9aKj_YW7zC58OZeAucjfyfLLk8qP84ZpUUyOeCqap4VFWiKlUj-v6QohtMRFQy55-m0EcEgBlc5wT9yPz8jZbDAttVG244XwNNBogbuBnY7Vf5pmJn0t6JhUdKRE79CywVnBXSVPX1cqnZFtJ8KYGF7QixlX-FXkuq2YM=&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/publication/基于数理统计的地铁车站换乘走行时间估计研究.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== Patents ==================== -->
+        <section class="section">
+            <h2 class="section-header">
+                专利
+                <span class="en">Patents</span>
+            </h2>
+            <div class="entry-list" id="patents-list">
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        高介敦, 姚佳娜, 阮贝, 杨一飞, 张天才, <b>金波</b>, 洪强, 何亚强, 傅鑫亮, 张冶芳, 娄刃. 基于Retinex-S-Curve-Estimation的隧道内极低照度改善方法[发明专利]. CN120495150B, 2025.09.26.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=Ow72tX7v2w1-NnH8TKfkRnioxkIU81THJKOI_-hlVeu74UJdXfmHwno5pgv5grVdWBdHngbjfuqVWTBBWfgsWYIoKWIyA-crIhmUXG3fhKL2k8Er3BBfa9PqQxbDwyho8QDaXYERJZ8CtVg80JjSsEwr3CR7nMVDeKhG9mIhkDFTbye6naU0LQ==&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/发明专利证书_基于Retinex-S-Curve-Estimation的隧道内极低照度改善方.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>金波</b>, 阙祖琛, 朱铭耀, 汪成立, 高介敦, 娄刃. 一种可扩展的高速公路交通流管控的多策略协同优化方法[发明专利]. CN120260267B, 2025.11.11.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=mg_qcPBBapnjl_ubPAIn8AUYqvgFaAa6wWBUPS529-FWHbwAc0Rye0siti5PDzq9cYs2JUpY0q_YcfBzSNItYRGxwzJHmhbWtWAy8p0xoOjmWz0fvlKh_Xv0DGzJzrMQ5GBfFcA9kUtU-_GP5D-TQ2jPVwyAM4cuhelTbz-tICeXiJ-3GH6rGQ==&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/一种可扩展的高速公路交通流管控的多策略协同优化方法.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        娄刃, 张天才, 姚佳娜, 何亚强, 傅鑫亮, 张冶芳, 韩霄, <b>金波</b>, 汪成立, 高介敦. 基于Retinex-DCE-YOLOv5s的隧道机电设备识别方法及系统[发明专利]. CN120047776B, 2025.07.01.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=fvwDbTJIyzRwu50JFQwYYuYG3v7_69nBeEy2qa6iOoudGOphQEh3Nper0B8WChIk2RW9oF_U4J94heZsiehMOaVjywwBks4td019Nezi7PI-_U29wMtd6fIxDXsxrNpd4dhM0j0NJJlp5P_DfhZGNIfOsh5XHTjG0UCrZi4HsmK1HkGVGfcg-Q==&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/发明专利证书_基于Retinex-DCE-YOLOv5s的隧道机电设备识别方法及系统.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        阙祖琛, <b>金波</b>, 相强强, 周伊江, 娄刃. 基于支持向量回归的高速公路短时交通流预测方法及装置[发明专利]. CN117975731B, 2025.04.11.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=HgkNOCd8VPjdtvn0siAhGT8o-uPP_3c1TLJdLYgOI1512Y5OKm9CcPGvO472shVvUUUViPdsLgd6K_KzxX9Ia9Z9UEIvfneiw0V1to8OEedyZY-bR_HgYZzFiYPsauJ8ePA4vxf-KeOY8cDbFWnV4Gb-qAGjyJ7-m9JOeDdwWa6j1B2522lcew==&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/基于支持向量回归.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>金波</b>, 余佳洋, 汪成立, 娄刃, 郑亦殷, 阙祖琛. 一种基于车群分解的高速公路分布式微观交通仿真方法[发明专利]. CN117975731B, 2025.04.11.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=HgkNOCd8VPi1p9yuC43bS2IE3dIeQNWLAopnRpwW5jMbpbbMeMw_gGMrem-T4tIrp4WZDMzrvveL8qc0M3KYzeN8dd4tjPVzZackckP1P-B26BDvBkSTKl_o7SB_5r864hmlXSHgOzJyEAiLkVJaAYdos_SB9kSphxo-QO4CdwBNBCdiQA3Fzw==&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/一种基于车群分解.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        何亚强, 汪成立, <b>金波</b>, 高介敦, 应豪, 娄刃, 洪强. 一种交通物联网感知设备数据采集接口分析管理系统[发明专利]. CN118984285B, 2025.01.24.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=LzEBRIJt2Q2eAXPyXz-DWtH4XkOlxk0mFc-s56c9m1twaKdCGvw9vwi9Qd6oAKRVJCIb_RnHSj6ObiTZFWZ6xGDtoCo3hUXEAyOqehz_tAIeuKWI1K74vMHcec7uc62A6EJITfbHdobwUa9a_X4GzwdXM1FOjEV0Bnxd53aRe42ncX51qMqkhzj5UXSbv5ob&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/一种交通物联网感知设备数据采集接口分析管理系统.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        汪成立, 何亚强, <b>金波</b>, 高介敦, 洪强, 陈典, 傅鑫亮. 一种交通物联网感知设备统一接入管理系统[发明专利]. CN119052057B, 2025.02.18.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=LzEBRIJt2Q3dnMS1cRGe1bHMIJZChIABkH2nsFl55ZRzrQ8WJJ7J-K2iCi_0_MvFGbFkNXbQ9AxyWaA2vlMmukx4sedxp7eh9BfJc4zHMY_Wn-VQmIn9n4XL4zbH31rpcLMxs74ShNs16HTXutTaWs_BF9ydmXF3QXrg_uqas-G0FiI6FX9qRgM7xozMAQPa&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/一种交通物联网感知设备统一接入管理系统.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>金波</b>, 余佳洋, 阙祖琛, 汪成立, 洪强, 姚佳娜. 基于强化学习和事件触发预测的高速公路匝道管控方法[发明专利]. CN 118430252 B, 2024.10.11.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=UjEBX92ALNHGFMmmwZ9Mz7tr2070H3OOGIgycuTdIpq4HfkmX6Zg6PFvg9dTS_53_JVyfMDtwg_gSUXRc9ZtX5bLmGWOuvwWIOVgD3nHlHI9p27v4k_UWjlxowf24uvaYJbuzd4AudEFX1o2_GCmMFoNNKsDAmzrXCRtYUWAWN1NTDwt2PX2ylRW8YEkB_j2&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/基于强化学习和事件触发.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        <b>金波</b>, 娄刃, 何亚强, 汪成立, 张俊烨, 杨松, 张冶芳. 一种基于强化学习的高速公路交通管控方法[发明专利]. CN 115713860 B, 2023.12.15.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=lxIxReJOxldtQgcWBpxlLLdbsdzVJKz8D79QXnmMBPZHFLNb1hG7aXc8Mr9yHPwsZFhF_8QXDTktkmC9FjKo5AX5kUsTzWH6TgESIzNzQySprgmI-uplHIXtohSd9GM3N8ts2BU_by8=&uniplatform=NZKPT&language=CHS">Web</a>
+                            <a href="files/patents/一种基于强化学习的高速公路交通管控方法.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        孙鹏飞, 张传鑫, 王青元, 陈小龙, <b>金波</b>, 冯晓云. 一种城市轨道交通运行调度方法及系统[发明专利]. CN 113743828 B, 2023.04.07.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=kxaUMs6x7-4I2jr5WTdXti3zQ9F92xu0Qg-R0xSsdGdCfhLaAHW6RDL8vCvSm3uDa9HSgrHVzR4Xi4owGRvPoSAVRJbXAReM&uniplatform=NZKPT">Web</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        葛学超, 王青元, 王玉冰, <b>金波</b>, 高天, 孙鹏飞. 考虑大小交路的时刻表和车底运用计划编制方法[发明专利]. CN 112734095 B, 2022.08.26.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgxAgJ6M9NLc_LWEMK2OE3DLM_9BWnN20HVJEgR742k6Y0wXSifCjY0WtxiouO93j_Rp6_QykyoWMmSdFKwrr6C-JBRY9e0oTvoUJ_HiNF4QckkFzWRuELBvoh2iyqtsnCPndbxqmzomsRbBHF3XhLeU2EfKSB80xfcPuzvso1gynZ5mpFOX62euf7lIBEwW8Uxja1tfsflAMQ==&uniplatform=NZKPT&language=CHS">Web</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        冯晓云, <b>金波</b>, 孙鹏飞, 王青元, 方倩, 宋文胜, 王嵩. 城市轨道交通时刻表与车底运用计划智能规划方法[发明专利]. CN 111523814 B, 2022.02.11.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgw_fHn0xurUtDN2LRj9qfmbl_2es8ZvCpge_DbwFBclNGDDN_LInkxR4bZQ0jM0e8GeqkiXnYbzFdOlgfIOagLinGshrBOwBoFjaRgUfmqhdPtMvcRjMQzJ0Nobw-M_5lC74GElDfIOnzsjwNeDc_dHlaDKuvHOQWtd3fyMKblHZuXC66OJE5Oj&uniplatform=NZKPT&language=CHS">Web</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        孙鹏飞, <b>金波</b>, 王青元, 陈默, 王晓文, 郭金松. 城市轨道交通节能时刻表和运行曲线优化方法[发明专利]. CN 109815536 B, 2020.10.30.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgwJlp463JOnKnQIpHiDGLUZN3Iwu_CcT_Aqk4JQcP_b-JgB2tM6j9oQGGPY0XmyPGv386w0fCCub1h17dxeWlIaRYtCZ38mizDLIvNCKy6Bf5YeDVRyVdB-6dcdGkAZSQiFm5h8bhUWYzyxNJ68aX1bfnIryfF0BZmrKLVVUM1NJDkl0CUGasfiTyDT0uX02ro=&uniplatform=NZKPT&language=CHS">Web</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        贺政纲, 余佳洋, 张骏杰, <b>金波</b>, 帅宇红, 孙逊. 一种填充物循环利用的快递包装柜[实用新型]. CN 210417242 U, 2020.04.28.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgy18T0ZQfqq_mZSFuEPybGky70qBt3Bj7mkrM40destE4XQMgW6so4EG-42mg65v9v2RV7K0O23baOk8DsWL0zpOIgWQB4s_zAVfA0w1VTmOpdzvBuzF3B7F5aluy5sxqcJs5xy5BQGQuB332QcxomkSkdqe2uKsvh-mk3dZ8_T-xPLelv4Djy91vSKF-qO4Ow=&uniplatform=NZKPT&language=CHS">Web</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        贺政纲, 余佳洋, 张骏杰, <b>金波</b>, 帅宇红, 孙逊. 一种自助式快递包装操作柜[实用新型]. CN 209821961 U, 2019.12.20.
+                        <span class="entry-links">
+                            <a href="https://kns.cnki.net/kcms2/article/abstract?v=wRD08hUPYgwffYiuNtDnmLwICApxYfGYSlSGeMt_dRvD-lhzrqc3x3bRtxu7b9cJjH6VwnDfi1OFPghYstQSBaLJ-dD34lUesVXHIql0AdOlFan-GkcMwlvHGmUNtzlYGbIfzWQXovRq99okX3Ufz0F8X1jZq4fOg20RCYxaw8Cpxk8t_ZCyY1V6bteyz3R7&uniplatform=NZKPT&language=CHS">Web</a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== Software Copyrights ==================== -->
+        <section class="section">
+            <h2 class="section-header">
+                软著
+                <span class="en">Software Copyrights</span>
+            </h2>
+            <div class="entry-list" id="softness-list">
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        数据驱动的交通流模型预测控制软件 V1.0. 2025SR1002253. 2025.06.13.
+                        <span class="entry-links">
+                            <a href="files/softness/数据驱动的交通流模型预测控制软件.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        高速公路微观交通仿真软件 V1.0. 2024SR0103440. 2024.01.16.
+                        <span class="entry-links">
+                            <a href="files/softness/高速公路微观交通仿真软件.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== Standards ==================== -->
+        <section class="section">
+            <h2 class="section-header">
+                标准
+                <span class="en">Standards</span>
+            </h2>
+            <div class="entry-list" id="standard-list">
+
+                <div class="entry-item">
+                    <span class="entry-num"></span>
+                    <div class="entry-content">
+                        自动驾驶道路测试安全风险评估技术规范. DB33/T 310020-2024. 2024.01.14.
+                        <span class="entry-links">
+                            <a href="https://zlzx.zjamr.zj.gov.cn/bzzx/public/std/db/view/4e93600b07ee4813a675a309da48ba5a.html">Web</a>
+                            <a href="files/standard/长三角标准2024.pdf">PDF</a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== Research Projects ==================== -->
+        <section class="section">
+            <h2 class="section-header">
+                课题
+                <span class="en">Research Projects</span>
+            </h2>
+            <div class="entry-list" id="research-list">
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2024.01 ~ 2025.06</span>
+                    <div class="two-col-detail">
+                        高速公路交通流主动管控决策系统关键技术研究，<b>浙江省交通运输科学研究院自主研发项目</b>, ZK202411, <b>主持</b>
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.02 ~ 2023.12</span>
+                    <div class="two-col-detail">
+                        仿真驱动的高速公路/国省道应急处置方案优化算法研究，<b>浙江省交通运输科学研究院自主研发项目</b>, ZK202321, <b>主持</b>
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2022.10 ~ 2023.12</span>
+                    <div class="two-col-detail">
+                        自动驾驶道路测试安全风险评估技术规范，<b>长三角地方标准项目</b>, KY202208, <b>主持</b>
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2025.01 ~ 2025.12</span>
+                    <div class="two-col-detail">
+                        交通基础设施数据元标准研究，<b>浙江省交通运输厅科技计划项目</b>, 2023014, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.01 ~ 2024.12</span>
+                    <div class="two-col-detail">
+                        交通物联网感知设备统一接入管理技术研究，<b>浙江省交通运输厅科技计划项目</b>, 2023013, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.01 ~ 2024.06</span>
+                    <div class="two-col-detail">
+                        交通流雷视融合感知系统评测技术研究，<b>浙江省交通运输厅科技计划项目</b>, 202209, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2022.09 ~ 2023.12</span>
+                    <div class="two-col-detail">
+                        基于数字孪生的智慧高速公路交通流全时空管控关键技术及应用示范，<b>浙江省重点研发计划项目</b>, 2021C01011, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2021.12 ~ 2022.06</span>
+                    <div class="two-col-detail">
+                        川藏铁路列车智能操控理论与关键技术研究，<b>国家自然科学基金项目-联合基金项目</b>, U21A20169, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2016.07 ~ 2020.06</span>
+                    <div class="two-col-detail">
+                        多效应耦合及智能控制技术研究，<b>国家重点研发计划项目</b>, 2016YFB1200502-02, 参与
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== Engineering Projects ==================== -->
+        <section class="section">
+            <h2 class="section-header">
+                项目
+                <span class="en">Engineering Projects</span>
+            </h2>
+            <div class="entry-list">
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2024.09 ~ 至今</span>
+                    <div class="two-col-detail">
+                        杭州南管理中心亚运通勤道路拥堵治理后评估技术服务，<b>浙交投杭金衢分公司杭绍管理处</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2025.01 ~ 至今</span>
+                    <div class="two-col-detail">
+                        G527义乌段（G60上溪互通至G1512义乌东互通）隧道智慧化运行管控（高地联动）项目，<b>义乌市公路运输与管理中心</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2025.05 ~ 2025.12</span>
+                    <div class="two-col-detail">
+                        基于高速公路ETC门架数据交通调查应用研究项目，<b>湖州市公路运输与管理中心</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2025.01 ~ 2025.06</span>
+                    <div class="two-col-detail">
+                        集团招标采购管理中心应用场景监测服务（浙高运）项目，<b>浙江交投高速公路运营管理有限公司金华管理处</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2025.01 ~ 2025.06</span>
+                    <div class="two-col-detail">
+                        浙江省公路与运输管理中心公路基础设施数字化转型升级咨询审查项目(标项一)，<b>浙江省公路与运输管理中心</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2024.11 ~ 2024.12</span>
+                    <div class="two-col-detail">
+                        高速公路安全管理现状调查分析及管理模式创新咨询服务项目，<b>浙江台州甬台温高速公路有限公司</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2024.01 ~ 2024.12</span>
+                    <div class="two-col-detail">
+                        湖杭高速公路吴兴至德清段工程第JD02标段智慧高速应用和示范软件，<b>浙江高信技术股份有限公司</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.07 ~ 2023.11</span>
+                    <div class="two-col-detail">
+                        基于数字孪生的智慧高速公路交通流全时空管控关键技术及应用示范，<b>上海电科智能系统股份有限公司</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.03 ~ 2023.12</span>
+                    <div class="two-col-detail">
+                        杭州南管理中心亚运通勤道路拥堵治理-典型交通事件管控预案，<b>浙江数智交院科技股份有限公司</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.01 ~ 2023.12</span>
+                    <div class="two-col-detail">
+                        温州绕城北线智慧高速课题应用示范应用技术服务项目，<b>温州市交投智慧交通科技有限公司</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.06 ~ 2023.07</span>
+                    <div class="two-col-detail">
+                        衢州管理中心2023年度市级道路交通事故多发路段点安全评价服务项目，<b>浙交投杭金衢分公司衢州管理处</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.04 ~ 2023.04</span>
+                    <div class="two-col-detail">
+                        杭金衢衢向K205-K213路段安全评价服务项目，<b>浙交投杭金衢分公司杭绍管理处</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.04 ~ 2023.04</span>
+                    <div class="two-col-detail">
+                        杭金衢杭向K191路段安全评价服务项目，<b>浙交投杭金衢分公司杭绍管理处</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2023.03 ~ 2023.04</span>
+                    <div class="two-col-detail">
+                        杭金衢衢向K187路段安全评价服务项目，<b>浙交投杭金衢分公司杭绍管理处</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2019.07 ~ 2022.06</span>
+                    <div class="two-col-detail">
+                        地铁列车运行节能优化控制技术研究，<b>中车青岛四方车辆研究所有限公司</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2017.12 ~ 2018.12</span>
+                    <div class="two-col-detail">
+                        动车组运行准点节能优化控制技术研究，<b>北京纵横机电技术开发公司</b>, 参与
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2016.09 ~ 2017.09</span>
+                    <div class="two-col-detail">
+                        蒙华铁路列车牵引计算有关问题研究，<b>蒙西华中铁路股份有限公司</b>, 参与
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== Awards ==================== -->
+        <section class="section">
+            <h2 class="section-header">
+                获奖
+                <span class="en">Awards</span>
+            </h2>
+            <div class="entry-list">
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2020.09</span>
+                    <div class="two-col-detail">
+                        <b>四川省"互联网+"创新创业大赛</b>，银奖
+                    </div>
+                </div>
+
+                <div class="two-col-item">
+                    <span class="two-col-date">2019.12</span>
+                    <div class="two-col-detail">
+                        <b>四川省"互联网+"创新创业大赛</b>，铜奖
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
 </body>
 </html>
