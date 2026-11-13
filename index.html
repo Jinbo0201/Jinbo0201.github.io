@@ -12,7 +12,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", Helvetica, Arial, sans-serif;
             color: #1e293b;
             background: #f8fafc;
-            line-height: 1.7;
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -27,12 +27,12 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 48px 28px 80px;
+            padding: 32px 28px 56px;
         }
 
         /* ========== Header / Profile ========== */
         .profile {
-            margin-bottom: 44px;
+            margin-bottom: 28px;
         }
 
         .profile .name {
@@ -58,7 +58,7 @@
         }
 
         .profile .affiliation {
-            margin-top: 12px;
+            margin-top: 8px;
             font-size: 16px;
             color: #334155;
         }
@@ -68,7 +68,7 @@
         }
 
         .profile .interests {
-            margin-top: 10px;
+            margin-top: 8px;
             display: flex;
             flex-wrap: wrap;
             gap: 8px 32px;
@@ -79,7 +79,7 @@
             gap: 4px;
             font-size: 14px;
             color: #475569;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         .profile .interests .tag strong {
             font-weight: 600;
@@ -88,7 +88,7 @@
         }
 
         .profile .meta {
-            margin-top: 10px;
+            margin-top: 8px;
             font-size: 14px;
             color: #475569;
         }
@@ -100,22 +100,9 @@
             font-weight: 600;
         }
 
-        .profile .about {
-            margin-top: 14px;
-            padding: 16px 20px;
-            background: #f1f5f9;
-            border-radius: 8px;
-            font-size: 14.5px;
-            line-height: 1.8;
-            color: #334155;
-        }
-        .profile .about strong {
-            font-weight: 600;
-        }
-
         /* ========== Section ========== */
         .section {
-            margin-bottom: 40px;
+            margin-bottom: 28px;
         }
         .section:last-child {
             margin-bottom: 0;
@@ -125,8 +112,8 @@
             font-size: 17px;
             font-weight: 600;
             color: #0f172a;
-            padding-bottom: 8px;
-            margin-bottom: 16px;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
             border-bottom: 2px solid #e2e8f0;
             display: flex;
             align-items: baseline;
@@ -147,7 +134,7 @@
         .exp-item {
             display: flex;
             gap: 16px;
-            padding: 10px 0;
+            padding: 6px 0;
             border-bottom: 1px solid #f1f5f9;
         }
         .exp-item:last-child {
@@ -184,7 +171,7 @@
         .entry-item {
             display: flex;
             gap: 12px;
-            padding: 10px 0;
+            padding: 6px 0;
             border-bottom: 1px solid #f1f5f9;
             align-items: flex-start;
         }
@@ -199,7 +186,7 @@
             font-size: 13px;
             font-weight: 600;
             color: #94a3b8;
-            padding-top: 2px;
+            padding-top: 1px;
             text-align: left;
         }
         .entry-num::before {
@@ -209,7 +196,7 @@
         .entry-content {
             flex: 1;
             font-size: 14px;
-            line-height: 1.7;
+            line-height: 1.55;
             color: #334155;
             min-width: 0;
         }
@@ -260,7 +247,7 @@
         }
 
         .more-btn-wrap {
-            padding-top: 14px;
+            padding-top: 10px;
             display: flex;
             justify-content: center;
         }
@@ -299,7 +286,7 @@
         .two-col-item {
             display: flex;
             gap: 16px;
-            padding: 9px 0;
+            padding: 5px 0;
             border-bottom: 1px solid #f1f5f9;
             align-items: flex-start;
         }
@@ -319,7 +306,7 @@
         .two-col-detail {
             flex: 1;
             font-size: 14px;
-            line-height: 1.7;
+            line-height: 1.55;
             color: #334155;
             min-width: 0;
         }
@@ -331,7 +318,7 @@
         /* ========== Responsive ========== */
         @media (max-width: 640px) {
             .container {
-                padding: 28px 16px 60px;
+                padding: 20px 16px 44px;
             }
 
             .profile .name {
@@ -344,11 +331,6 @@
                 font-size: 17px;
             }
             .profile .name .degree-en {
-                font-size: 14px;
-            }
-
-            .profile .about {
-                padding: 14px 16px;
                 font-size: 14px;
             }
 
@@ -410,10 +392,6 @@
                 padding: 0;
                 color: #2563eb;
             }
-            .profile .about {
-                background: #f5f5f5;
-                border: 1px solid #ddd;
-            }
         }
     </style>
 </head>
@@ -444,10 +422,6 @@
             <div class="meta">
                 <span class="part-time"><strong>兼职:</strong> 浙江省人工智能学会智能交通分会第一届委员会青年委员</span>
                 <span><strong>Email:</strong> <a href="mailto:jinbo0201@outlook.com">jinbo0201@outlook.com</a></span>
-            </div>
-
-            <div class="about">
-                <strong>个人简介:</strong> 高级工程师，浙江大学博士后，西南交通大学博士研究生毕业，主要从事智能交通系统建模、仿真、优化和控制等方面的研究工作。担任浙江省人工智能学会智能交通分会第一届委员会青年委员。先后主持或参与省部级、厅局级等科研项目10余项，其中国自然基金项目2项，完成技术服务项目20余项，发表学术论文20余篇，授权专利软著10余项，参与编制长三角地方标准1项。获得四川省"互联网+"创新创业大赛银奖1项，铜奖1项。
             </div>
         </header>
 
