@@ -243,6 +243,58 @@
             text-decoration: none;
         }
 
+        /* ========== Expandable List (Publications) ========== */
+        .entry-more {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            /* 折叠时隐藏内容，避免键盘焦点与读屏访问到不可见条目 */
+            visibility: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease, visibility 0s linear 0.4s;
+        }
+        .entry-more.expanded {
+            max-height: none;
+            opacity: 1;
+            visibility: visible;
+            transition: max-height 0.4s ease, opacity 0.3s ease, visibility 0s;
+        }
+
+        .more-btn-wrap {
+            padding-top: 14px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            color: #2563eb;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            border-radius: 6px;
+            padding: 6px 16px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .more-btn:hover {
+            background: #dbeafe;
+            border-color: #bfdbfe;
+        }
+        .more-btn:focus-visible {
+            outline: 2px solid #2563eb;
+            outline-offset: 2px;
+        }
+        .more-btn-icon {
+            transition: transform 0.3s ease;
+        }
+        .more-btn.expanded .more-btn-icon {
+            transform: rotate(180deg);
+        }
+
         /* ========== Two-Column Entry (Projects, Awards) ========== */
         .two-col-item {
             display: flex;
@@ -315,6 +367,13 @@
                 flex-wrap: wrap;
                 gap: 4px 10px;
             }
+
+            .more-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 16px;
+                font-size: 14px;
+            }
             .entry-num {
                 min-width: 24px;
             }
@@ -330,6 +389,16 @@
             body {
                 background: white;
                 color: black;
+            }
+            /* 打印时展开全部出版物并隐藏交互按钮 */
+            .entry-more {
+                max-height: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                overflow: visible !important;
+            }
+            .more-btn-wrap {
+                display: none !important;
             }
             .container {
                 padding: 20px;
@@ -451,8 +520,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         Que Z, <b>Jin B</b>, Lou R, Si Z, Dai H. Short-Term Traffic Flow Prediction Based on VMD-SMA-SVR[C]. 2024 6th International Conference on Data-driven Optimization of Complex Systems (DOCS), Hangzhou, China, 2024, 703-708.
@@ -462,8 +530,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Yu J, He Y, Que Z, Yang S. Event-triggered Model Predictive Control with Reinforcement Learning for Highway Local Ramp Metering[C]. 2024 43rd Chinese Control Conference (CCC), Kunming, China, 2024, 6556-6561.
@@ -473,8 +540,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Yu J, Yao J, Wang C, Fu L, Yang S. Distributed Model Predictive Control for Automatic Train Regulation in Metro Lines[C]. 2023 China Automation Congress (CAC), Chongqing, China, 2023, 4063-4068.
@@ -484,8 +550,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Yang S, Feng X, Wang Q. Study on Energy-Saving Train Trajectory Optimization Based on Coasting Control in Metro Lines[J]. Journal of Advanced Transportation, 2023, 1217352.
@@ -496,7 +561,8 @@
                     </div>
                 </div>
 
-                <div class="entry-item">
+                <div class="entry-more" id="pub-more">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Yu J, Zhou Y, Wang D, Zhang Y, Yang S. Simulation-driven multi-segment variable speed limits on freeway[C]. 2023 7th International Conference on Transportation Information and Safety (ICTIS), Xi'an, China, 2023, 1163-1167.
@@ -506,8 +572,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         Yu J, <b>Jin B</b>, He J, Li C, Chen S. Research on location-routing problem of highway and high-speed railway multimodal transportation considering timeliness demand[C]. 2023 7th International Conference on Transportation Information and Safety (ICTIS), Xi'an, China, 2023, 1-9.
@@ -517,8 +582,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         Sun P, Zhang C, <b>Jin B</b>, Wang Q, Geng H. Timetable optimization for maximization of regenerative braking energy utilization in traction network of urban rail transit[J]. Computers &amp; Industrial Engineering, 2023, 109448.
@@ -528,8 +592,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         Geng H, Miyatake M, Wang Q, Sun P, <b>Jin B</b>. A method for optimizing urban rail transit timetable based on accurate power flow[J]. Mechanical Engineering Journal, 2023.
@@ -539,8 +602,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Feng X, Wang Q, Sun P. Real-time train regulation method for metro lines with substation peak power reduction[J]. Computer &amp; Industrial Engineering, 2022, 168: 108113.
@@ -550,8 +612,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         姜森浩，孙鹏飞，<b>金波</b>, 张佳辉。数据驱动的重载列车多目标速度曲线规划算法研究 [J], 现代计算机，2022, 28(15): 1-8.<br>
@@ -562,8 +623,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>金波</b>, 郭佑星，王青元，孙鹏飞，冯晓云。考虑大小交路的时刻表与车底运用计划一体化编制方法 [J], 中国铁道科学，2022, 43(3): 173-181.<br>
@@ -574,8 +634,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         黄德青，蔡汉林，王青元，江明，<b>金波</b>, 崔佳诺。地铁列车协同操纵的节能优化方法 [J]. 中国铁道科学，2022, 43(3): 155-163.<br>
@@ -586,8 +645,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Fang Q, Wang Q, Sun P, Feng X. Energy-efficient train control in urban rail transit: multi-train dynamic cooperation based on train-to-train communication[C] 2021 IEEE Intelligent Vehicles Symposium (IV), Nagoya, 2021: 309-314.
@@ -597,8 +655,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Feng X, Wang Q, Sun P, Fang Q. Train scheduling method to reduce substation energy consumption and peak power of metro transit systems[J], Transportation Research Record: Journal of the Transportation Research Board, 2021, 2675(4): 201-212.
@@ -608,8 +665,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Sun P, Wang Q, Feng X. Two-step method to reduce metro transit energy consumption by optimising speed profile and timetable[J]. IET Intelligent Transport Systems, 2020, 14(9): 1097-1107.
@@ -619,8 +675,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>金波</b>, 孙鹏飞，王青元，冯晓云。基于混合整数规划的高速列车多区间节能优化研究 [J]. 铁道学报，2020, 42(2): 11-17<br>
@@ -631,8 +686,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Feng X, Sun P, Chen M, Chai Y. Energy saving in metro transit substation through train trajectory optimization[C]. 2019 IEEE Intelligent Transportation Systems Conference (ITSC), Auckland, 2019: 2829-2834.
@@ -642,8 +696,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Feng X, Wang Q, Wang X, Liu C. Improving timetable robustness through optimal distribution of runtime supplement[C]. 2019 IEEE Intelligent Transportation Systems Conference (ITSC), Auckland, 2019: 1-6.
@@ -653,8 +706,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         Chen M, Xiao Z, Sun P, Wang Q, <b>Jin B</b>, Feng X. Energy-efficient driving strategies for multi-train by optimization and update speed profiles considering transmission losses of regenerative energy[J]. Energies, 2019. 12(18): 3573.
@@ -664,8 +716,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         <b>Jin B</b>, Sun P, Xu M, Wang Q. Train timetable and trajectory optimization using improved state-space MILP[C]. Proceedings of the 37th Chinese Control Conference (CCC), Wuhan, 2018: 7748-7753.
@@ -675,8 +726,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="entry-item">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         童燚杰，王利鑫，潘明轩，李正洋，<b>金波</b>. 基于数量统计的地铁车站换乘走行时间估计研究 [J]. 交通科技与经济，2016, 18(1): 7-11.<br>
@@ -686,6 +736,14 @@
                             <a href="files/publication/基于数理统计的地铁车站换乘走行时间估计研究.pdf">PDF</a>
                         </span>
                     </div>
+                </div>
+                </div>
+
+                <div class="more-btn-wrap">
+                    <button type="button" class="more-btn" id="pub-more-btn" aria-expanded="false" aria-controls="pub-more">
+                        <span class="more-btn-text">显示更多 (17)</span>
+                        <svg class="more-btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
                 </div>
 
             </div>
@@ -1144,5 +1202,61 @@
         </section>
 
     </div>
+
+    <script>
+        (function () {
+            var btn = document.getElementById('pub-more-btn');
+            var more = document.getElementById('pub-more');
+            if (!btn || !more) return;
+
+            var text = btn.querySelector('.more-btn-text');
+            var total = more.querySelectorAll('.entry-item').length;
+
+            // 折叠状态下容器高度为 0 且 visibility:hidden，需临时放开以测量真实高度
+            function measure() {
+                var prevVis = more.style.visibility;
+                var prevMax = more.style.maxHeight;
+                more.style.visibility = 'visible';
+                more.style.maxHeight = 'none';
+                var h = more.scrollHeight;
+                more.style.maxHeight = prevMax;
+                more.style.visibility = prevVis;
+                return h;
+            }
+
+            btn.addEventListener('click', function () {
+                var expanded = btn.classList.toggle('expanded');
+
+                if (expanded) {
+                    var target = measure();
+                    // 强制回流，确保从 0 开始过渡
+                    void more.offsetHeight;
+                    more.style.maxHeight = target + 'px';
+                    more.classList.add('expanded');
+                    btn.setAttribute('aria-expanded', 'true');
+                    if (text) text.textContent = '收起';
+
+                    // 动画结束后解除高度限制，保证内容自适应
+                    var done = function () {
+                        more.style.maxHeight = 'none';
+                        more.removeEventListener('transitionend', done);
+                    };
+                    more.addEventListener('transitionend', done);
+                } else {
+                    // 收起前先固定当前高度，再收拢到 0
+                    // 注意：展开态下 visibility 已是 visible，scrollHeight 可正常测量
+                    more.style.maxHeight = more.scrollHeight + 'px';
+                    void more.offsetHeight;
+                    more.classList.remove('expanded');
+                    more.style.maxHeight = '0px';
+                    btn.setAttribute('aria-expanded', 'false');
+                    if (text) text.textContent = '显示更多 (' + total + ')';
+                }
+            });
+
+            // 初始文本带上真实数量
+            if (text) text.textContent = '显示更多 (' + total + ')';
+        })();
+    </script>
 </body>
 </html>
