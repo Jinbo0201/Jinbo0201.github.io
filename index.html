@@ -243,8 +243,8 @@
             text-decoration: none;
         }
 
-        /* ========== Expandable List (Publications) ========== */
-        .entry-more {
+        /* ========== Expandable List (Publications / Patents / Research / Projects) ========== */
+        .fold-panel {
             overflow: hidden;
             max-height: 0;
             opacity: 0;
@@ -252,7 +252,7 @@
             visibility: hidden;
             transition: max-height 0.4s ease, opacity 0.3s ease, visibility 0s linear 0.4s;
         }
-        .entry-more.expanded {
+        .fold-panel.expanded {
             max-height: none;
             opacity: 1;
             visibility: visible;
@@ -390,8 +390,8 @@
                 background: white;
                 color: black;
             }
-            /* 打印时展开全部出版物并隐藏交互按钮 */
-            .entry-more {
+            /* 打印时展开全部折叠内容并隐藏交互按钮 */
+            .fold-panel {
                 max-height: none !important;
                 opacity: 1 !important;
                 visibility: visible !important;
@@ -561,7 +561,7 @@
                     </div>
                 </div>
 
-                <div class="entry-more" id="pub-more">
+                <div class="fold-panel" id="pub-more">
 <div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
@@ -812,7 +812,8 @@
                     </div>
                 </div>
 
-                <div class="entry-item">
+<div class="fold-panel" id="pat-more">
+<div class="entry-item">
                     <span class="entry-num"></span>
                     <div class="entry-content">
                         何亚强, 汪成立, <b>金波</b>, 高介敦, 应豪, 娄刃, 洪强. 一种交通物联网感知设备数据采集接口分析管理系统[发明专利]. CN118984285B, 2025.01.24.
@@ -916,6 +917,16 @@
                     </div>
                 </div>
 
+            
+                </div>
+
+
+                <div class="more-btn-wrap">
+                    <button type="button" class="more-btn" id="pat-more-btn" aria-expanded="false" aria-controls="pat-more">
+                        <span class="more-btn-text">显示更多</span>
+                        <svg class="more-btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -1015,7 +1026,8 @@
                     </div>
                 </div>
 
-                <div class="two-col-item">
+<div class="fold-panel" id="res-more">
+<div class="two-col-item">
                     <span class="two-col-date">2023.01 ~ 2024.06</span>
                     <div class="two-col-detail">
                         交通流雷视融合感知系统评测技术研究，<b>浙江省交通运输厅科技计划项目</b>, 202209, 参与
@@ -1043,6 +1055,16 @@
                     </div>
                 </div>
 
+            
+                </div>
+
+
+                <div class="more-btn-wrap">
+                    <button type="button" class="more-btn" id="res-more-btn" aria-expanded="false" aria-controls="res-more">
+                        <span class="more-btn-text">显示更多</span>
+                        <svg class="more-btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -1089,7 +1111,8 @@
                     </div>
                 </div>
 
-                <div class="two-col-item">
+                <div class="fold-panel" id="prj-more">
+<div class="two-col-item">
                     <span class="two-col-date">2024.11 ~ 2024.12</span>
                     <div class="two-col-detail">
                         高速公路安全管理现状调查分析及管理模式创新咨询服务项目，<b>浙江台州甬台温高速公路有限公司</b>, 参与
@@ -1173,6 +1196,15 @@
                     </div>
                 </div>
 
+            
+                </div>
+
+                <div class="more-btn-wrap">
+                    <button type="button" class="more-btn" id="prj-more-btn" aria-expanded="false" aria-controls="prj-more">
+                        <span class="more-btn-text">显示更多</span>
+                        <svg class="more-btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -1205,57 +1237,60 @@
 
     <script>
         (function () {
-            var btn = document.getElementById('pub-more-btn');
-            var more = document.getElementById('pub-more');
-            if (!btn || !more) return;
+            // 通用折叠逻辑：适用于出版物、专利、课题、项目等所有列表
+            var buttons = document.querySelectorAll('.more-btn');
 
-            var text = btn.querySelector('.more-btn-text');
-            var total = more.querySelectorAll('.entry-item').length;
+            buttons.forEach(function (btn) {
+                var more = document.getElementById(btn.getAttribute('aria-controls'));
+                if (!more) return;
 
-            // 折叠状态下容器高度为 0 且 visibility:hidden，需临时放开以测量真实高度
-            function measure() {
-                var prevVis = more.style.visibility;
-                var prevMax = more.style.maxHeight;
-                more.style.visibility = 'visible';
-                more.style.maxHeight = 'none';
-                var h = more.scrollHeight;
-                more.style.maxHeight = prevMax;
-                more.style.visibility = prevVis;
-                return h;
-            }
+                var text = btn.querySelector('.more-btn-text');
+                var total = more.querySelectorAll('.entry-item, .two-col-item').length;
 
-            btn.addEventListener('click', function () {
-                var expanded = btn.classList.toggle('expanded');
-
-                if (expanded) {
-                    var target = measure();
-                    // 强制回流，确保从 0 开始过渡
-                    void more.offsetHeight;
-                    more.style.maxHeight = target + 'px';
-                    more.classList.add('expanded');
-                    btn.setAttribute('aria-expanded', 'true');
-                    if (text) text.textContent = '收起';
-
-                    // 动画结束后解除高度限制，保证内容自适应
-                    var done = function () {
-                        more.style.maxHeight = 'none';
-                        more.removeEventListener('transitionend', done);
-                    };
-                    more.addEventListener('transitionend', done);
-                } else {
-                    // 收起前先固定当前高度，再收拢到 0
-                    // 注意：展开态下 visibility 已是 visible，scrollHeight 可正常测量
-                    more.style.maxHeight = more.scrollHeight + 'px';
-                    void more.offsetHeight;
-                    more.classList.remove('expanded');
-                    more.style.maxHeight = '0px';
-                    btn.setAttribute('aria-expanded', 'false');
-                    if (text) text.textContent = '显示更多 (' + total + ')';
+                // 折叠状态下容器高度为 0 且 visibility:hidden，需临时放开以测量真实高度
+                function measure() {
+                    var prevVis = more.style.visibility;
+                    var prevMax = more.style.maxHeight;
+                    more.style.visibility = 'visible';
+                    more.style.maxHeight = 'none';
+                    var h = more.scrollHeight;
+                    more.style.maxHeight = prevMax;
+                    more.style.visibility = prevVis;
+                    return h;
                 }
-            });
 
-            // 初始文本带上真实数量
-            if (text) text.textContent = '显示更多 (' + total + ')';
+                btn.addEventListener('click', function () {
+                    var expanded = btn.classList.toggle('expanded');
+
+                    if (expanded) {
+                        var target = measure();
+                        // 强制回流，确保从 0 开始过渡
+                        void more.offsetHeight;
+                        more.style.maxHeight = target + 'px';
+                        more.classList.add('expanded');
+                        btn.setAttribute('aria-expanded', 'true');
+                        if (text) text.textContent = '收起';
+
+                        // 动画结束后解除高度限制，保证内容自适应
+                        var done = function () {
+                            more.style.maxHeight = 'none';
+                            more.removeEventListener('transitionend', done);
+                        };
+                        more.addEventListener('transitionend', done);
+                    } else {
+                        // 收起前先固定当前高度，再收拢到 0
+                        more.style.maxHeight = more.scrollHeight + 'px';
+                        void more.offsetHeight;
+                        more.classList.remove('expanded');
+                        more.style.maxHeight = '0px';
+                        btn.setAttribute('aria-expanded', 'false');
+                        if (text) text.textContent = '显示更多 (' + total + ')';
+                    }
+                });
+
+                // 初始文本带上真实数量
+                if (text) text.textContent = '显示更多 (' + total + ')';
+            });
         })();
     </script>
 </body>
